@@ -1,0 +1,55 @@
+import type { Palette } from './eventTypes';
+
+/** Coordinated palettes for Color Invasion. Channels are "r g b" triples. */
+export const PALETTES: readonly Palette[] = [
+  {
+    id: 'bubblegum',
+    name: 'Bubblegum Riot',
+    accent: '190 24 93',
+    accent2: '109 40 217',
+    btnFrom: '244 114 182',
+    btnTo: '190 24 93',
+    glow: '244 114 182',
+    tint: ['rgba(244,114,182,0.30)', 'rgba(167,139,250,0.26)'],
+  },
+  {
+    id: 'lagoon',
+    name: 'Neon Lagoon',
+    accent: '15 118 110',
+    accent2: '29 78 216',
+    btnFrom: '45 212 191',
+    btnTo: '15 118 110',
+    glow: '45 212 191',
+    tint: ['rgba(45,212,191,0.28)', 'rgba(96,165,250,0.26)'],
+  },
+  {
+    id: 'sunburn',
+    name: 'Suspicious Sunset',
+    accent: '194 65 12',
+    accent2: '190 24 93',
+    btnFrom: '251 146 60',
+    btnTo: '194 65 12',
+    glow: '251 146 60',
+    tint: ['rgba(251,146,60,0.30)', 'rgba(244,63,94,0.22)'],
+  },
+  {
+    id: 'grape',
+    name: 'Grape Escape',
+    accent: '109 40 217',
+    accent2: '29 78 216',
+    btnFrom: '167 139 250',
+    btnTo: '91 33 182',
+    glow: '167 139 250',
+    tint: ['rgba(167,139,250,0.30)', 'rgba(59,130,246,0.24)'],
+  },
+  {
+    id: 'lime',
+    name: 'Lime Time',
+    accent: '63 98 18',
+    accent2: '15 118 110',
+    btnFrom: '77 124 15',
+    btnTo: '54 83 20',
+    glow: '163 230 53',
+    tint: ['rgba(163,230,53,0.28)', 'rgba(45,212,191,0.22)'],
+  },
+];

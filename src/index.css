@@ -1,0 +1,664 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ------------------------------------------------------------------ *
+ * Theme tokens. Colours are "r g b" channel triples so Tailwind alpha
+ * modifiers (bg-accent/20) keep working.
+ * ------------------------------------------------------------------ */
+:root,
+[data-theme='light'] {
+  --bg: 250 246 255;
+  --surface: 255 255 255;
+  --ink: 30 27 46;
+  --muted: 92 86 118;
+  --line: 226 220 245;
+  --accent: 109 40 217;
+  --accent-2: 29 78 216;
+  --on-accent: 255 255 255;
+  --coral: 190 18 60;
+  --sun: 250 204 21;
+  --pink: 219 39 119;
+  --decor-1: 196 181 253;
+  --decor-2: 253 164 175;
+  --decor-3: 253 224 71;
+  color-scheme: light;
+}
+
+[data-theme='dark'] {
+  --bg: 15 12 28;
+  --surface: 28 24 48;
+  --ink: 245 242 255;
+  --muted: 176 170 205;
+  --line: 58 51 92;
+  --accent: 167 139 250;
+  --accent-2: 125 180 255;
+  --on-accent: 20 16 38;
+  --coral: 251 113 133;
+  --sun: 253 224 71;
+  --pink: 244 114 182;
+  --decor-1: 91 33 182;
+  --decor-2: 159 18 57;
+  --decor-3: 161 98 7;
+  color-scheme: dark;
+}
+
+[data-theme='chaos'] {
+  --bg: 255 243 205;
+  --surface: 255 255 255;
+  --ink: 45 10 60;
+  --muted: 98 52 110;
+  --line: 244 200 222;
+  --accent: 162 28 175;
+  --accent-2: 29 78 216;
+  --on-accent: 255 255 255;
+  --coral: 190 18 60;
+  --sun: 250 204 21;
+  --pink: 219 39 119;
+  --decor-1: 240 171 252;
+  --decor-2: 253 164 175;
+  --decor-3: 253 224 71;
+  color-scheme: light;
+}
+
+/* Button colour presets. */
+:root,
+[data-button='violet'] {
+  --btn-from: 139 92 246;
+  --btn-to: 91 33 182;
+  --btn-glow: 139 92 246;
+  --btn-ink: 255 255 255;
+}
+[data-button='coral'] {
+  --btn-from: 244 63 94;
+  --btn-to: 190 18 60;
+  --btn-glow: 244 63 94;
+  --btn-ink: 255 255 255;
+}
+[data-button='blue'] {
+  --btn-from: 59 130 246;
+  --btn-to: 29 78 216;
+  --btn-glow: 59 130 246;
+  --btn-ink: 255 255 255;
+}
+[data-button='sunny'] {
+  --btn-from: 253 224 71;
+  --btn-to: 245 158 11;
+  --btn-glow: 250 204 21;
+  --btn-ink: 45 27 6;
+}
+[data-button='pink'] {
+  --btn-from: 236 72 153;
+  --btn-to: 190 24 93;
+  --btn-glow: 236 72 153;
+  --btn-ink: 255 255 255;
+}
+
+/* The Void temporarily forces a dark palette (colour only, no motion). */
+[data-fx~='void'] {
+  --bg: 8 6 20;
+  --surface: 22 18 40;
+  --ink: 235 232 255;
+  --muted: 170 164 205;
+  --line: 52 46 84;
+  --accent: 167 139 250;
+  --accent-2: 125 180 255;
+  --on-accent: 20 16 38;
+  --decor-1: 76 29 149;
+  --decor-2: 76 5 25;
+  --decor-3: 66 32 6;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5.5rem;
+  background-color: rgb(var(--bg));
+}
+
+body {
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+*:focus-visible {
+  outline: 3px solid rgb(var(--accent-2));
+  outline-offset: 3px;
+  border-radius: 0.5rem;
+}
+
+@layer components {
+  .app-root {
+    min-height: 100vh;
+    min-height: 100dvh;
+    position: relative;
+    isolation: isolate;
+    overflow-x: clip;
+    color: rgb(var(--ink));
+    background-color: rgb(var(--bg));
+    transition: background-color 0.7s ease, color 0.7s ease;
+  }
+
+  .card {
+    background-color: rgb(var(--surface));
+    border: 1.5px solid rgb(var(--line));
+    border-radius: 1.5rem;
+    box-shadow: 0 1px 0 rgb(var(--line)), 0 18px 40px -24px rgb(var(--accent) / 0.35);
+    transition: background-color 0.7s ease, border-color 0.7s ease;
+  }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    border-radius: 9999px;
+    border: 1.5px solid rgb(var(--line));
+    background-color: rgb(var(--surface));
+    padding: 0.5rem 1rem;
+    min-height: 2.75rem;
+    font-weight: 600;
+    transition: transform 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+  }
+  .pill:hover {
+    border-color: rgb(var(--accent));
+  }
+  .pill:active {
+    transform: translateY(1px);
+  }
+
+  .icon-btn {
+    display: inline-grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 9999px;
+    border: 1.5px solid rgb(var(--line));
+    background-color: rgb(var(--surface));
+    color: rgb(var(--ink));
+    transition: border-color 0.15s ease, transform 0.15s ease;
+  }
+  .icon-btn:hover {
+    border-color: rgb(var(--accent));
+  }
+  .icon-btn:active {
+    transform: scale(0.94);
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    padding: 0.5rem 1.25rem;
+    border-radius: 9999px;
+    font-weight: 700;
+    color: rgb(var(--on-accent));
+    background-color: rgb(var(--accent));
+    transition: filter 0.15s ease, transform 0.15s ease;
+  }
+  .btn-primary:hover {
+    filter: brightness(1.1);
+  }
+  .btn-primary:active {
+    transform: translateY(1px);
+  }
+
+  .btn-danger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    padding: 0.5rem 1.25rem;
+    border-radius: 9999px;
+    font-weight: 700;
+    color: #fff;
+    background-color: rgb(190 18 60);
+  }
+  .btn-danger:hover {
+    filter: brightness(1.1);
+  }
+
+  .eyebrow {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgb(var(--accent));
+  }
+
+  /* ---------------- The big button ---------------- */
+  .chaos-btn {
+    position: relative;
+    width: min(76vw, 20rem);
+    aspect-ratio: 1 / 1;
+    border-radius: 9999px;
+    border: 0;
+    cursor: pointer;
+    padding: 1.5rem;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    font-family: ui-rounded, 'Arial Rounded MT Bold', 'Trebuchet MS', system-ui, sans-serif;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    color: rgb(var(--btn-ink));
+    background:
+      radial-gradient(circle at 30% 20%, rgb(255 255 255 / 0.4), transparent 42%),
+      linear-gradient(165deg, rgb(var(--btn-from)), rgb(var(--btn-to)));
+    box-shadow:
+      0 14px 0 rgb(0 0 0 / 0.28),
+      0 28px 56px -8px rgb(var(--btn-glow) / 0.55),
+      inset 0 -10px 20px rgb(0 0 0 / 0.16),
+      inset 0 8px 16px rgb(255 255 255 / 0.32);
+    transition: box-shadow 0.12s ease, filter 0.2s ease, opacity 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    user-select: none;
+  }
+  .chaos-btn:hover:not(:disabled) {
+    filter: saturate(1.15) brightness(1.04);
+  }
+  .chaos-btn:active:not(:disabled) {
+    box-shadow:
+      0 5px 0 rgb(0 0 0 / 0.28),
+      0 14px 30px -8px rgb(var(--btn-glow) / 0.6),
+      inset 0 -6px 14px rgb(0 0 0 / 0.2),
+      inset 0 6px 12px rgb(255 255 255 / 0.25);
+  }
+  .chaos-btn:focus-visible {
+    outline: 5px solid rgb(var(--accent-2));
+    outline-offset: 8px;
+    border-radius: 9999px;
+  }
+  .chaos-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+    filter: grayscale(0.5);
+  }
+  .chaos-btn__label {
+    display: block;
+    max-width: 78%;
+    font-size: clamp(1.75rem, 8.5vw, 2.75rem);
+    text-wrap: balance;
+    text-shadow: 0 2px 0 rgb(0 0 0 / 0.14);
+  }
+  .chaos-btn__label--long {
+    font-size: clamp(1.15rem, 5.5vw, 1.75rem);
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Decorations
+ * ------------------------------------------------------------------ */
+.decor-layer {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  contain: layout paint;
+}
+.decor-item {
+  position: absolute;
+  opacity: 0.75;
+  will-change: transform;
+}
+[data-theme='chaos'][data-motion='full'] .decor-item {
+  animation: decor-drift 7s ease-in-out infinite alternate;
+  animation-delay: var(--decor-delay, 0s);
+}
+@keyframes decor-drift {
+  from {
+    transform: translate3d(0, 0, 0) rotate(-4deg);
+  }
+  to {
+    transform: translate3d(0, -16px, 0) rotate(5deg);
+  }
+}
+
+.palette-wash {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Pause purely decorative animation while the tab is hidden. */
+[data-hidden='true'] .decor-item,
+[data-hidden='true'] .chaos-btn,
+[data-hidden='true'] .fx-layer * {
+  animation-play-state: paused !important;
+}
+
+/* ------------------------------------------------------------------ *
+ * Chaos effects
+ * ------------------------------------------------------------------ */
+.fx-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  overflow: hidden;
+  contain: layout paint;
+}
+.fx-piece {
+  position: absolute;
+  display: block;
+  will-change: transform, opacity;
+  line-height: 1;
+}
+
+.fx-rain {
+  top: 0;
+  animation: fx-fall var(--dur) cubic-bezier(0.3, 0.1, 0.6, 1) var(--delay) both;
+}
+@keyframes fx-fall {
+  0% {
+    transform: translate3d(0, -12vh, 0) rotate(0deg);
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(var(--drift), 108vh, 0) rotate(var(--spin));
+    opacity: 0;
+  }
+}
+
+.fx-burst {
+  animation: fx-burst var(--dur) cubic-bezier(0.2, 0.7, 0.3, 1) var(--delay, 0s) both;
+}
+@keyframes fx-burst {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(0.4);
+    opacity: 1;
+  }
+  40% {
+    transform: translate3d(calc(var(--dx) * 0.75), var(--peak), 0) rotate(calc(var(--spin) * 0.5)) scale(1);
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(var(--dx), var(--fall), 0) rotate(var(--spin)) scale(1);
+    opacity: 0;
+  }
+}
+
+.fx-sparkle {
+  animation: fx-sparkle var(--dur) ease-in-out var(--delay) both;
+}
+@keyframes fx-sparkle {
+  0% {
+    transform: translate3d(0, 10px, 0) scale(0.4);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(0, -60px, 0) scale(1.1) rotate(25deg);
+    opacity: 0;
+  }
+}
+
+.fx-star {
+  border-radius: 9999px;
+  background: #fff;
+  box-shadow: 0 0 6px 1px rgb(255 255 255 / 0.7);
+  animation: fx-twinkle var(--dur) ease-in-out var(--delay) infinite alternate;
+}
+@keyframes fx-twinkle {
+  from {
+    opacity: 0.25;
+    transform: translate3d(0, 0, 0) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(var(--drift, 0px), -14px, 0) scale(1.15);
+  }
+}
+
+.fx-wash {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.fx-wash__strip {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 300%;
+  will-change: transform;
+}
+.fx-wash--disco .fx-wash__strip {
+  background: linear-gradient(
+    90deg,
+    rgb(236 72 153 / 0.38),
+    rgb(139 92 246 / 0.38),
+    rgb(56 189 248 / 0.38),
+    rgb(250 204 21 / 0.34),
+    rgb(236 72 153 / 0.38)
+  );
+  animation: fx-slide 6s linear infinite;
+}
+.fx-wash--rainbow .fx-wash__strip {
+  background: repeating-linear-gradient(
+    100deg,
+    rgb(239 68 68 / 0.36) 0 8%,
+    rgb(249 115 22 / 0.36) 8% 16%,
+    rgb(250 204 21 / 0.34) 16% 24%,
+    rgb(34 197 94 / 0.34) 24% 32%,
+    rgb(59 130 246 / 0.36) 32% 40%,
+    rgb(139 92 246 / 0.36) 40% 48%
+  );
+  animation: fx-slide 9s linear infinite;
+}
+.fx-wash--void {
+  background: radial-gradient(circle at 50% 45%, rgb(30 10 60 / 0.55), rgb(2 0 12 / 0.7) 70%);
+}
+@keyframes fx-slide {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-66.666%, 0, 0);
+  }
+}
+
+/* Class-token effects, scoped by the data-fx attribute on .app-root. */
+@keyframes fx-shake {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  15% {
+    transform: translate3d(calc(var(--fx-amp, 1) * -4px), calc(var(--fx-amp, 1) * 2px), 0);
+  }
+  30% {
+    transform: translate3d(calc(var(--fx-amp, 1) * 4px), calc(var(--fx-amp, 1) * -2px), 0);
+  }
+  45% {
+    transform: translate3d(calc(var(--fx-amp, 1) * -3px), calc(var(--fx-amp, 1) * -2px), 0);
+  }
+  60% {
+    transform: translate3d(calc(var(--fx-amp, 1) * 3px), calc(var(--fx-amp, 1) * 2px), 0);
+  }
+  80% {
+    transform: translate3d(calc(var(--fx-amp, 1) * -1px), calc(var(--fx-amp, 1) * 1px), 0);
+  }
+}
+.app-root[data-fx~='earthquake'] .fx-shake {
+  animation: fx-shake var(--fx-earthquake-ms, 800ms) linear both;
+}
+
+@keyframes fx-flip {
+  0% {
+    transform: rotate(0deg);
+  }
+  14%,
+  84% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.app-root[data-fx~='gravity'] .fx-flip {
+  animation: fx-flip var(--fx-gravity-ms, 3400ms) cubic-bezier(0.5, 0, 0.2, 1) both;
+}
+
+@keyframes fx-shrink {
+  0% {
+    transform: scale(1);
+  }
+  12%,
+  68% {
+    transform: scale(0.4);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.app-root[data-fx~='tiny'] .fx-shrink {
+  animation: fx-shrink var(--fx-tiny-ms, 3400ms) ease-in-out both;
+}
+
+@keyframes fx-zoom {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(calc(1 + var(--fx-amp, 1) * 0.14));
+  }
+}
+.app-root[data-fx~='zoom'] .fx-zoom {
+  animation: fx-zoom var(--fx-zoom-ms, 2800ms) cubic-bezier(0.45, 0, 0.25, 1) both;
+}
+
+@keyframes fx-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  25% {
+    transform: translate3d(8px, -22px, 0) rotate(3deg);
+  }
+  50% {
+    transform: translate3d(-6px, -10px, 0) rotate(-3deg);
+  }
+  75% {
+    transform: translate3d(5px, -26px, 0) rotate(2deg);
+  }
+}
+.app-root[data-fx~='float'] .fx-floaty {
+  animation: fx-float var(--fx-float-ms, 4800ms) ease-in-out var(--float-delay, 0s) both;
+}
+
+@keyframes fx-glitch {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+    text-shadow: none;
+  }
+  20% {
+    transform: translate3d(-4px, 0, 0) skewX(-4deg);
+    text-shadow: 3px 0 rgb(244 63 94 / 0.8), -3px 0 rgb(59 130 246 / 0.8);
+  }
+  45% {
+    transform: translate3d(4px, 1px, 0) skewX(3deg);
+    text-shadow: -3px 0 rgb(244 63 94 / 0.8), 3px 0 rgb(59 130 246 / 0.8);
+  }
+  70% {
+    transform: translate3d(-2px, -1px, 0);
+    text-shadow: 2px 0 rgb(244 63 94 / 0.8), -2px 0 rgb(59 130 246 / 0.8);
+  }
+}
+.app-root[data-fx~='glitch'] .fx-glitch {
+  animation: fx-glitch var(--fx-glitch-ms, 1300ms) steps(6, end) both;
+}
+
+/* Idle button breathing and clone drift (full motion only). */
+@keyframes btn-breathe {
+  0%,
+  100% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.06) saturate(1.08);
+  }
+}
+[data-motion='full'] .chaos-btn:not(:disabled) {
+  animation: btn-breathe 3.6s ease-in-out infinite;
+}
+
+@keyframes clone-bob {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(0, -8px, 0);
+  }
+}
+.clone {
+  animation: clone-bob 1.2s ease-in-out infinite alternate;
+}
+
+/* ------------------------------------------------------------------ *
+ * Reduced motion: remove all movement. State changes (colour, text)
+ * still communicate what happened.
+ * ------------------------------------------------------------------ */
+[data-motion='reduced'] .fx-shake,
+[data-motion='reduced'] .fx-flip,
+[data-motion='reduced'] .fx-shrink,
+[data-motion='reduced'] .fx-zoom,
+[data-motion='reduced'] .fx-floaty,
+[data-motion='reduced'] .fx-glitch,
+[data-motion='reduced'] .decor-item,
+[data-motion='reduced'] .chaos-btn,
+[data-motion='reduced'] .clone,
+[data-motion='reduced'] .fx-wash__strip {
+  animation: none !important;
+}
+[data-motion='reduced'] * {
+  scroll-behavior: auto !important;
+  transition-duration: 0.01ms !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .fx-shake,
+  .fx-flip,
+  .fx-shrink,
+  .fx-zoom,
+  .fx-floaty,
+  .fx-glitch,
+  .decor-item,
+  .chaos-btn,
+  .clone,
+  .fx-wash__strip {
+    animation: none !important;
+  }
+}
+
+.sr-only-focusable:not(:focus):not(:focus-within) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
